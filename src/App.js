@@ -36,7 +36,22 @@ const App = () => {
   }
 
   const handleBookSubmission = (event) => {
-
+    event.preventDefault();
+    axios.post(
+      'http://localhost:3000/books',
+      {
+        title: newTitle,
+        author: newAuthor,
+        cover: newCover,
+        price: newPrice,
+        publishDate: newDate
+      }
+    ).then(() => {
+      axios.get('http://localhost:3000/books')
+      .then((response => {
+        setBooks(response.data)
+      }))
+    })
   }
 
   useEffect(() => {
@@ -46,8 +61,36 @@ const App = () => {
     })
   }, [])
 
+  const handleDeleteBook = (books) => {
+    axios.delete(`http://localhost:3000/books/${books._id}`)
+    .then(() => {
+      axios
+      .get('http://localhost:3000/books')
+      .then((response) => {
+        setBooks(response.data)
+      })
+    })
+  }
+
+  const submitEditChanges = (books) => {
+    axios.put(`http://localhost:3000/books/${books._id}`,
+    {
+        title: newTitle,
+        author: newAuthor,
+        cover: newCover,
+        price: newPrice,
+        publishDate: newDate
+    })
+    .then(() => {
+      axios.get('http://localhost:3000/books')
+      .then((response) => {
+        setBooks(response.data)
+      })
+    })
+  }
+
   return (
-    <div>
+    <div className='Wrapper'>
       <h1>whaddup</h1>
       <h2>Add a New Book</h2>
       <form onSubmit={handleBookSubmission}>
@@ -61,6 +104,21 @@ const App = () => {
       {books.map((books) => {
         return <div>
           <h1>{books.title}</h1>
+          <button onClick={(event) => {
+            handleDeleteBook(books)
+          }}>Delete Book</button>
+          <details>
+            <div>
+              <form onSubmit={() => {{submitEditChanges(books)}}}>
+              Title: <input type ='text' onKeyUp={handleChangeTitle}/><br/>
+              Author: <input type ='text' onKeyUp={handleChangeAuthor}/><br/>
+              Cover: <input type ='text' onKeyUp={handleChangeCover}/><br/>
+              Price: <input type ='number' onKeyUp={handleChangePrice}/><br/>
+              Date: <input type ='date' onKeyUp={handleChangeDate}/><br/>
+              <input type='submit' value='submit changes'></input>
+              </form>
+            </div>
+          </details>
           </div>
       })}
     </div>
