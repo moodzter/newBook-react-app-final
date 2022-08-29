@@ -1,4 +1,10 @@
 .Wrapper {
   padding-bottom: 3em;
   margin-bottom: 3em;
+  text-align: center;
+}
+
+.img{
+  height: 35vw;
+  width: 25vw;
 }

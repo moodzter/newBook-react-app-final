@@ -91,7 +91,7 @@ const App = () => {
 
   return (
     <div className='Wrapper'>
-      <h1>whaddup</h1>
+      <h1>Cool and Awesome Books</h1>
       <h2>Add a New Book</h2>
       <form onSubmit={handleBookSubmission}>
         Title: <input type ='text' onChange={handleChangeTitle}/><br/>
@@ -103,18 +103,30 @@ const App = () => {
       </form>
       {books.map((books) => {
         return <div>
+          <div>
           <h1>{books.title}</h1>
+          </div>
+          <div>
+          <img className="img"src={books.cover}/>
+          </div>
+            <div>
+              <ul>
+                <li>Author: {books.author}</li>
+                <li>Price: {books.price}</li>
+                <li>Publish Date: {books.publishDate}</li>
+              </ul>
+            </div>
           <button onClick={(event) => {
             handleDeleteBook(books)
           }}>Delete Book</button>
           <details>
             <div>
               <form onSubmit={() => {{submitEditChanges(books)}}}>
-              Title: <input type ='text' onKeyUp={handleChangeTitle}/><br/>
-              Author: <input type ='text' onKeyUp={handleChangeAuthor}/><br/>
-              Cover: <input type ='text' onKeyUp={handleChangeCover}/><br/>
-              Price: <input type ='number' onKeyUp={handleChangePrice}/><br/>
-              Date: <input type ='date' onKeyUp={handleChangeDate}/><br/>
+              Title: <input type ='text'  value={books.title} onKeyUp={handleChangeTitle}/><br/>
+              Author: <input type ='text' value={books.author} onKeyUp={handleChangeAuthor}/><br/>
+              Cover: <input type ='text' value={books.cover} onKeyUp={handleChangeCover}/><br/>
+              Price: <input type ='number' value={books.price} onKeyUp={handleChangePrice}/><br/>
+              Date: <input type ='date' value={books.publishDate} onKeyUp={handleChangeDate}/><br/>
               <input type='submit' value='submit changes'></input>
               </form>
             </div>
